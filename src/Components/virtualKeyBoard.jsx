@@ -2,25 +2,21 @@ import { useState, useEffect, useReducer } from "react";
 import KeyBoardLanguage from "./KeyBoardLanguage";
 import Screen from "./Screen";
 import KeyBoard from "./KeyBoard";
-import LetterStyle from "./letterStyle";
-import { getLanguage } from "./LanguagesData";
+import { getLanguage } from "./data/LanguagesData";
 import "./KeyBoardStylee.css";
 import EmojiKeyBoard from "./EmojiKeyBoard";
 
 
 const intialLanguage = getLanguage("english");
+
 const initialState = {
     iso_639_2: intialLanguage.iso_639_2,
     languageName: intialLanguage.languageName,
     translatedName: intialLanguage.translatedName,
     keyList: intialLanguage.keyList,
     placeholder: intialLanguage.placeholder,
-    currentStyle: new LetterStyle(),
     stack: [[]],
     emojiActive: false,
-    isUndo: false,
-    isRedo: false,
-    redoStack: [],
 };
 
 const highlightClickedButtons = (char) => {
@@ -34,6 +30,7 @@ const highlightClickedButtons = (char) => {
         }
     });
 };
+
 const reducer = (state, action) => {
     let newStack = [...state.stack];
     switch (action.type) {
@@ -95,16 +92,6 @@ const reducer = (state, action) => {
                 ...state,
                 emojiActive: !state.emojiActive
             }
-
-
-        case "undoPrev":
-            state.redoStack.push(newStack.pop());
-            return {
-                ...state,
-                stack: newStack,
-                isUndo: newStack.length >= 1,
-                isRedo: true,
-            };
         case "paste":
             console.log(action.text);
             newStack.push(action.text);
@@ -113,38 +100,15 @@ const reducer = (state, action) => {
                 stack: newStack,
                 isUndo: true,
             }
-        case "deleteAll":
-            if (newStack.length) {
-                let lastState = [{ char: "", style: { ...state.currentStyle } }];
-                newStack.push(lastState);
-            }
-            return {
-                ...state,
-                stack: newStack
-            }
-        case "redo":
-            let lastItem = state.redoStack.pop();
-            newStack.push(lastItem);
-            return {
-                ...state,
-                isRedo: state.redoStack.length !== 0,
-                stack: newStack,
-                redoStack: state.redoStack
-
-            }
-        case "updateCurrentStyle":
-            return {
-                ...state,
-                currentStyle: action.newStyle,
-            }
-
         default:
             return state;
     }
 };
+
 function VirtualKeyBoard() {
+    
     const [state, dispatch] = useReducer(reducer, initialState);
-    const { iso_639_2, language, keyList, placeholder, currentStyle, stack, emojiActive, isUndo, isRedo, redoStack } = state;
+    const { iso_639_2, language, keyList, placeholder, stack, emojiActive } = state;
     const [isShift, setisShift] = useState(false);
 
     const toggleEmojiActive = () => {
@@ -175,23 +139,8 @@ function VirtualKeyBoard() {
 
     const handleEvent = (event) => {
         switch (event) {
-            case "deleteAll":
-                deleteAll();
-                break;
-            case "undo":
-                undoPrev();
-                break;
-            case "redo":
-                redo();
-                break;
             case "backspace":
                 deleteLastChar();
-                break;
-            case "copy":
-                handleCopy();
-                break;
-            case "paste":
-                paste();
                 break;
             default:
                 break;
@@ -302,4 +251,5 @@ function VirtualKeyBoard() {
         </div>
     );
 }
+
 export default VirtualKeyBoard;

@@ -1,5 +1,17 @@
-import { useEmojiData } from "./useEmojiData";
+import { useEmojiData } from "./data/useEmojiData";
 
+/**
+ * EmojiKeyBoard Component
+ * Displays a virtual emoji keyboard with categories and emojis.
+ *
+ * Props:
+ * - handleInputButtonClick: Function to handle emoji button clicks (receives the emoji as an argument).
+ *
+ * Functionality:
+ * - Fetches emoji categories and their emojis using the `useEmojiData` hook.
+ * - Renders each category with its corresponding emojis.
+ * - Allows users to click on an emoji button, triggering the `handleInputButtonClick` function.
+ */
 function EmojiKeyBoard({ handleInputButtonClick }) {
     const emojiCategories = useEmojiData();
 

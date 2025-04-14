@@ -1,5 +1,17 @@
 import './KeyBoardStylee.css';
 
+/**
+ * KeyBoard Component
+ * Renders a virtual keyboard based on the provided language and key list.
+ *
+ * Props:
+ * - langCode: The language code for the keyboard layout (e.g., "en", "fr").
+ * - keyList: An array of rows, where each row is an array of key definitions.
+ * - isShift: A boolean indicating whether the Shift key is active.
+ * - setisShift: A function to toggle the Shift key state.
+ * - handleButtonClick: A function to handle button clicks (receives the character as an argument).
+ * - handleEvent: A function to handle special key events (e.g., backspace, tab).
+ */
 function KeyBoard(props) {
   return (
     <>
@@ -19,10 +31,10 @@ function KeyBoard(props) {
                     'key-return',
                     'key-lshift',
                     'key-rshift',
-                    'key-lcmd',
-                    'key-rcmd',
-                    'key-lopt',
-                    'key-ropt',
+                    'key-lalt',
+                    'key-ralt',
+                    'key-lwin',
+                    'key-rwin',
                     'key-lctrl',
                     'key-rctrl',
                     'key-spc',
