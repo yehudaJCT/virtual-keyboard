@@ -5,21 +5,6 @@ class LetterStyle {
     this.fontFamily = fontFamily;
     this.textDecoration = textDecoration;
   }
-  setColor(color) {
-    this.color = color;
-  }
-
-  setFontSize(fontSize) {
-    this.fontSize = fontSize;
-  }
-
-  setFontFamily(fontFamily) {
-    this.fontFamily = fontFamily;
-  }
-
-  setTextDecoration(textDecoration) {
-    this.textDecoration = textDecoration;
-  }
 }
 
 export default LetterStyle;

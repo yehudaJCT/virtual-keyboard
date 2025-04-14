@@ -1,11 +1,9 @@
 import { useState, useEffect, useReducer } from "react";
 import KeyBoardLanguage from "./KeyBoardLanguage";
 import Screen from "./Screen";
-import SpecialButtons from "./SpecialButtons";
 import KeyBoard from "./KeyBoard";
 import LetterStyle from "../letterStyle";
 import { getLanguage } from "../LanguagesData";
-import StyleSelector from "./StyleSelector";
 import "./KeyBoardStylee.css";
 import EmojiKeyBoard from "./EmojiKeyBoard";
 
@@ -347,14 +345,6 @@ function VirtualKeyBoard() {
                     }
                 />
 
-                <SpecialButtons
-                    handleEvent={handleEvent}
-                    isUndo={isUndo}
-                    isRedo={isRedo}
-                    text={ stack.length && stack[stack.length - 1].length
-                        ? stack[stack.length - 1]
-                        : placeholder}
-                />
             </div>
             {emojiActive ? (
                 <EmojiKeyBoard handleInputButtonClick={handleInputButtonClick} />
@@ -369,14 +359,7 @@ function VirtualKeyBoard() {
                     handleEvent={handleEvent}
                 />
             )}
-            <StyleSelector
-                changeAllTextStyle={changeAllTextStyle}
-                onSelectStyle={setCurrentStyle}
-                currentStyle={currentStyle}
-                upperAll={upperAll}
-                lowerAll={lowerAll}
-            />
-            <div className="convert-to-pdf"></div>
+
         </div>
     );
 }
