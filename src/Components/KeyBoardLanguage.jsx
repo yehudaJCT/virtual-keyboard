@@ -1,6 +1,6 @@
 import { FaKeyboard } from "react-icons/fa";
 import "./KeyBoardStylee.css";
-import languagesData from "../LanguagesData";
+import languagesData from "./LanguagesData";
 import emojiButton from "../assets/images/emojiButton.webp";
 
 import React, { useState } from 'react';

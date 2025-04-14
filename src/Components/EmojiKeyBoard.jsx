@@ -1,4 +1,4 @@
-import { useEmojiData } from "../hooks/useEmojiData";
+import { useEmojiData } from "./useEmojiData";
 
 function EmojiKeyBoard({ handleInputButtonClick }) {
     const emojiCategories = useEmojiData();

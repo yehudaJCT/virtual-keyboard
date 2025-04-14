@@ -2,8 +2,8 @@ import { useState, useEffect, useReducer } from "react";
 import KeyBoardLanguage from "./KeyBoardLanguage";
 import Screen from "./Screen";
 import KeyBoard from "./KeyBoard";
-import LetterStyle from "../letterStyle";
-import { getLanguage } from "../LanguagesData";
+import LetterStyle from "./letterStyle";
+import { getLanguage } from "./LanguagesData";
 import "./KeyBoardStylee.css";
 import EmojiKeyBoard from "./EmojiKeyBoard";
 
@@ -146,27 +146,7 @@ function VirtualKeyBoard() {
     const [state, dispatch] = useReducer(reducer, initialState);
     const { iso_639_2, language, keyList, placeholder, currentStyle, stack, emojiActive, isUndo, isRedo, redoStack } = state;
     const [isShift, setisShift] = useState(false);
-    const setCurrentStyle = (newStyle) => {
-        dispatch({
-            type: "updateCurrentStyle",
-            newStyle: newStyle,
-        });
-    };
 
-    const deleteAll = () => {
-        dispatch({ type: "deleteAll" });
-    };
-    const paste = () => {
-        navigator.clipboard.readText().then((text) => {
-            if (text) {
-                console.log(text);
-                const lastState = stack[stack.length-1];
-                text.split("").forEach((item) => lastState.push({ char: item, style: { ...state.currentStyle } }));
-                console.log(lastState);
-                dispatch({ type: "paste", text: lastState }); // Pass text as a property
-            }
-        });
-    };
     const toggleEmojiActive = () => {
         dispatch({ type: "toggleEmojiActive" });
     };
@@ -174,26 +154,7 @@ function VirtualKeyBoard() {
     const deleteLastChar = () => {
         dispatch({ type: "deleteLastChar" });
     };
-    const changeAllText = (itemFunction) => {
-        dispatch({
-            type: "changeAllText",
-            itemFunction: itemFunction,
-        });
-    };
-    function undoPrev() {
-        dispatch(
-            {
-                type: "undoPrev"
-            }
-        )
-    }
-    function redo() {
-        dispatch(
-            {
-                type: "redo"
-            }
-        )
-    }
+
     function changeLanguage(language) {
         dispatch(
             {
@@ -202,6 +163,7 @@ function VirtualKeyBoard() {
             }
         )
     }
+
     function handleInputButtonClick(char) {
         dispatch(
             {
@@ -210,30 +172,7 @@ function VirtualKeyBoard() {
             }
         )
     }
-    const upperChar = (item) => ({
-        char: item.char.toUpperCase(),
-        style: { ...item.style },
-    });
-    const lowerChar = (item) => ({
-        char: item.char.toLowerCase(),
-        style: { ...item.style },
-    });
-    const upperAll = () => changeAllText(upperChar);
-    const lowerAll = () => changeAllText(lowerChar);
-    function changeAllTextStyle(styleToChange) {
-        const setOneStyle = (item) => ({
-            char: item.char,
-            style: { ...styleToChange },
-        });
-        changeAllText(setOneStyle);
-    }
 
-    function handleCopy() {
-        const text = stack[stack.length - 1].map((item) => item.char).join("");
-        console.log(text)
-        navigator.clipboard.writeText(text).then(() => {
-        });
-    }
     const handleEvent = (event) => {
         switch (event) {
             case "deleteAll":
