@@ -1,10 +1,23 @@
 import { FaKeyboard } from "react-icons/fa";
-import "./KeyBoardStylee.css";
+import "../css/KeyBoardStylee.css";
 import languagesData from "./data/LanguagesData";
 import emojiButton from "../assets/images/emojiButton.webp";
+import React from 'react';
 
-import React, { useState } from 'react';
-
+/**
+ * KeyBoardLanguage Component
+ * Allows the user to select a keyboard language and toggle between the emoji keyboard and the virtual keyboard.
+ *
+ * Props:
+ * - setLanguage: Function to update the selected language.
+ * - isEmojiActive: Boolean indicating whether the emoji keyboard is active.
+ * - changeState: Function to toggle between the emoji keyboard and the virtual keyboard.
+ *
+ * Functionality:
+ * - Renders a dropdown menu for selecting a language.
+ * - Displays a button to toggle between the emoji keyboard and the virtual keyboard.
+ * - The button icon changes based on the `isEmojiActive` prop.
+ */
 function KeyBoardLanguage(props) {
   const setLanguage = props.setLanguage;
   const handleChange = (event) =>  setLanguage(event.target.value);

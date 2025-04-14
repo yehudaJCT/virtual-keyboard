@@ -1,4 +1,4 @@
-import './KeyBoardStylee.css';
+import '../css/KeyBoardStylee.css';
 
 /**
  * KeyBoard Component

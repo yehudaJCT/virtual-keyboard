@@ -26,31 +26,12 @@ const languagesData =   [
         placeholder: "הקלד כאן"
     }
 ];
-
 export default languagesData;
+
+// This function returns the language object based on the provided language name.
 const getLanguage = (languageName) => {
     const lowercasedLanguageName = languageName.toLowerCase();
     return languagesData.find((language) => language.languageName.toLowerCase() === lowercasedLanguageName);
 };
 export { getLanguage };
-const findCharInLanguage = (language, char) => {
-    const lowercasedChar = char.toLowerCase();
-    const charIndex = language.characters.findIndex((c) => c === lowercasedChar);
-    if (charIndex !== -1) {
-        return charIndex;
-    }
-    const shiftCharIndex = language.shiftCharacters.findIndex((c) => c === lowercasedChar);
-    return shiftCharIndex;
-};
 
-const findCharIndex = (char) => {
-    for (let i = 0; i < languagesData.length; i++) {
-        const language = languagesData[i];
-        const indexInLanguage = findCharInLanguage(language, char);
-        if (indexInLanguage !== -1) {
-            return indexInLanguage;
-        }
-    }
-    return -1; // Character not found in any language
-};
-export {findCharIndex}
