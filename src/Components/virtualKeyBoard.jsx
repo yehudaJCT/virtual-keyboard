@@ -48,8 +48,8 @@ function VirtualKeyBoard() {
     // Handle input button clicks
     const handleInputButtonClick = (char) => {
         setStack((prevStack) => {
-            const newStack = [...prevStack];
-            const lastItem = [...newStack[newStack.length - 1]];
+            const newStack = [...prevStack]; // Copy the previous stack
+            const lastItem = [...newStack[newStack.length - 1]]; // 
             lastItem.push({ char, style: {} });
             newStack[newStack.length - 1] = lastItem;
             return newStack;
@@ -63,59 +63,17 @@ function VirtualKeyBoard() {
         }
     };
 
-    // Handle keydown events (replacing useEffect)
-    const handleKeyDown = (event) => {
-        const isAlphanumeric =
-            (event.keyCode >= 48 && event.keyCode <= 90) ||
-            (event.keyCode >= 96 && event.keyCode <= 105) ||
-            event.keyCode === 32 || // space
-            event.keyCode === 13 || // enter
-            event.keyCode === 8; // backspace
-
-        if (isAlphanumeric) {
-            let char;
-            if (event.keyCode === 32) {
-                char = "\xa0"; // space
-                document.querySelectorAll(".key-spc").forEach((space) => {
-                    space.classList.add("highlighted");
-                    setTimeout(() => space.classList.remove("highlighted"), 300);
-                });
-            } else if (event.keyCode === 8) {
-                handleEvent("backspace");
-                document.querySelectorAll(".key-bspc").forEach((backspace) => {
-                    backspace.classList.add("highlighted");
-                    setTimeout(() => backspace.classList.remove("highlighted"), 300);
-                });
-            } else if (event.keyCode === 13) {
-                char = "\n"; // enter
-                document.querySelectorAll(".key-return").forEach((enter) => {
-                    enter.classList.add("highlighted");
-                    setTimeout(() => enter.classList.remove("highlighted"), 300);
-                });
-            } else {
-                char = String.fromCharCode(event.keyCode).toLowerCase();
-            }
-
-            if (event.keyCode !== 8) {
-                handleInputButtonClick(char);
-            }
-        }
-    };
-
-    // Add and remove event listeners manually
-    window.addEventListener("keydown", handleKeyDown);
-    window.removeEventListener("keydown", handleKeyDown);
 
     return (
         <div className="main-container">
+            <div className="change_layout">
+                <KeyBoardLanguage
+                    setLanguage={changeLanguage}
+                    changeState={toggleEmojiActive}
+                    isEmojiActive={emojiActive}
+                />
+            </div>
             <div className="screenDiv">
-                <div className="change_layout">
-                    <KeyBoardLanguage
-                        setLanguage={changeLanguage}
-                        changeState={toggleEmojiActive}
-                        isEmojiActive={emojiActive}
-                    />
-                </div>
                 <Screen
                     text={
                         stack.length && stack[stack.length - 1].length

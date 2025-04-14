@@ -151,6 +151,9 @@ select {
 }
 
 .change_layout {
+  position: relative;
+  width: 100%;
+  max-width: var(--vk-max-width);
   background: rgb(101, 216, 201);
   border-radius: 14px 14px 0px 0px;
   margin: auto;

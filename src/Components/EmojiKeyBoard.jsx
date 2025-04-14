@@ -16,18 +16,68 @@ function EmojiKeyBoard({ handleInputButtonClick }) {
     const emojiCategories = useEmojiData();
 
     return (
-        <div className='emoji-keyboard'>
+        <div className="emoji-keyboard">
             {Object.entries(emojiCategories).map(([category, emojis]) => (
-                <div key={category}>
-                    <h3>{category}</h3>
-                    {emojis.map((emoji, index) => (
-                        <button key={index} onClick={() => handleInputButtonClick(emoji)}>
-                            {emoji}
-                        </button>
-                    ))}
-                </div>
+                <EmojiCategory
+                    key={category}
+                    category={category}
+                    emojis={emojis}
+                    handleInputButtonClick={handleInputButtonClick}
+                />
             ))}
         </div>
+    );
+}
+
+/**
+ * EmojiCategory Component
+ * Renders a single emoji category with its emojis.
+ *
+ * Props:
+ * - category: The name of the emoji category.
+ * - emojis: Array of emojis in the category.
+ * - handleInputButtonClick: Function to handle emoji button clicks.
+ */
+function EmojiCategory({ category, emojis, handleInputButtonClick }) {
+    return (
+        <div className="emoji-category">
+            <h3 className="emoji-category-title">{category}</h3>
+            <EmojiList emojis={emojis} handleInputButtonClick={handleInputButtonClick} />
+        </div>
+    );
+}
+
+/**
+ * EmojiList Component
+ * Renders a list of emoji buttons.
+ *
+ * Props:
+ * - emojis: Array of emojis to display.
+ * - handleInputButtonClick: Function to handle emoji button clicks.
+ */
+function EmojiList({ emojis, handleInputButtonClick }) {
+    return (
+        <div className="emoji-list">
+            {emojis.map((emoji, index) => (
+                <EmojiButton key={index} emoji={emoji} handleInputButtonClick={handleInputButtonClick} />
+            ))}
+        </div>
+    );
+}
+
+/**
+ * EmojiButton Component
+ * Renders a single emoji button.
+ *
+ * Props:
+ * - emoji: The emoji to display.
+ * - handleInputButtonClick: Function to handle emoji button clicks.
+ */
+function EmojiButton({ emoji, handleInputButtonClick }) {
+    return (
+        <button className="emoji-button" onClick={() => handleInputButtonClick(emoji)}>
+            {emoji}
+        </button>
     );
 }
 

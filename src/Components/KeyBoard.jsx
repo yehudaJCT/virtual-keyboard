@@ -1,5 +1,60 @@
 import '../css/KeyBoardStylee.css';
 
+
+
+// List of non-literal keys
+const nonLiterals = [
+  'key-bspc',
+  'key-caps',
+  'key-tab',
+  'key-return',
+  'key-lshift',
+  'key-rshift',
+  'key-lalt',
+  'key-ralt',
+  'key-lwin',
+  'key-rwin',
+  'key-lctrl',
+  'key-rctrl',
+  'key-spc',
+];
+
+// Helper function to render non-literal keys
+function renderNonLiteralKey(item, index, props, displayText) {
+  const { handleEvent, handleButtonClick, setisShift, isShift } = props;
+
+  const keyActions = {
+    'key-bspc': () => handleEvent('backspace'),
+    'key-caps': () => setisShift(!isShift),
+    'key-lshift': () => setisShift(!isShift),
+    'key-rshift': () => setisShift(!isShift),
+    'key-return': () => handleButtonClick('\n'),
+    'key-spc': () => handleButtonClick('\xa0'),
+    'key-tab': () => handleButtonClick('\u00A0\u00A0\u00A0\u00A0'),
+  };
+
+  const action = keyActions[item[0]];
+
+  return (
+    <div key={index} className={`key ${item[0]}`} onClick={action}>
+      {displayText}
+    </div>
+  );
+}
+
+// Helper function to render literal keys
+function renderLiteralKey(item, index, props, displayText) {
+  return (
+    <div
+      key={index}
+      className={`key ${item[0]}`}
+      onClick={() => props.handleButtonClick(displayText)}
+    >
+      {displayText}
+    </div>
+  );
+}
+
 /**
  * KeyBoard Component
  * Renders a virtual keyboard based on the provided language and key list.
@@ -13,114 +68,25 @@ import '../css/KeyBoardStylee.css';
  * - handleEvent: A function to handle special key events (e.g., backspace, tab).
  */
 function KeyBoard(props) {
+  const { langCode, keyList, isShift } = props;
+
+  // Helper function to render a row of keys
+  const renderRow = (row, rowIndex) => (
+    <div key={rowIndex} className="d-flex justify-center">
+      {row.map((item, index) => {
+        const displayText = isShift ? item[2] || item[1] : item[1];
+        return nonLiterals.includes(item[0])
+          ? renderNonLiteralKey(item, index, props, displayText)
+          : renderLiteralKey(item, index, props, displayText);
+      })}
+    </div>
+  );
+
   return (
-    <>
-      <div id="vk-board" className={`lang-${props.langCode}`}>
-        {props.keyList &&
-          props.keyList.map((row, rowIndex) => {
-            return (
-              <div key={rowIndex} className="d-flex justify-center">
-                {row.map((item, index) => {
-                  const displayText = props.isShift
-                    ? item[2] || item[1]
-                    : item[1];
-                  const nonLiterals = [
-                    'key-bspc',
-                    'key-caps',
-                    'key-tab',
-                    'key-return',
-                    'key-lshift',
-                    'key-rshift',
-                    'key-lalt',
-                    'key-ralt',
-                    'key-lwin',
-                    'key-rwin',
-                    'key-lctrl',
-                    'key-rctrl',
-                    'key-spc',
-                  ];
-                  if (nonLiterals.includes(item[0])) {
-                    switch (item[0]) {
-                      case 'key-bspc':
-                        return (
-                          <div
-                            key={index}
-                            className={`key ${item[0]}`}
-                            onClick={() => props.handleEvent('backspace')}
-                          >
-                            {displayText}
-                          </div>
-                        );
-                      case 'key-caps':
-                      case 'key-lshift':
-                      case 'key-rshift':
-                        return (
-                          <div
-                            key={index}
-                            className={`key ${item[0]}`}
-                            onClick={() => props.setisShift(!props.isShift)}
-                          >
-                            {displayText}
-                          </div>
-                        );
-                      case 'key-return':
-                        return (
-                          <div
-                            key={index}
-                            className={`key ${item[0]}`}
-                            onClick={() => props.handleButtonClick('\n')}
-                          >
-                            {displayText}
-                          </div>
-                        );
-                      case 'key-spc':
-                        return (
-                          <div
-                            key={index}
-                            className={`key ${item[0]}`}
-                            onClick={() => props.handleButtonClick('\xa0')}
-                          >
-                            {displayText}
-                          </div>
-                        );
-                      case 'key-tab':
-                        return (
-                          <div
-                            key={index}
-                            className={`key ${item[0]}`}
-                            onClick={() =>
-                              props.handleButtonClick(
-                                '\u00A0\u00A0\u00A0\u00A0'
-                              )
-                            }
-                          >
-                            {displayText}
-                          </div>
-                        );
-                      default:
-                        return (
-                          <div key={index} className={`key ${item[0]}`}>
-                            {displayText}
-                          </div>
-                        );
-                    }
-                  } else {
-                    return (
-                      <div
-                        key={index}
-                        className={`key ${item[0]}`}
-                        onClick={() => props.handleButtonClick(displayText)}
-                      >
-                        {displayText}
-                      </div>
-                    );
-                  }
-                })}
-              </div>
-            );
-          })}
-      </div>
-    </>
+    <div id="vk-board" className={`lang-${langCode}`}>
+      {keyList && keyList.map(renderRow)}
+    </div>
   );
 }
+
 export default KeyBoard;
